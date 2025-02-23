@@ -11,12 +11,12 @@ public class Shop : MonoBehaviour
     public Button damageButton;
     public Button fireRateButton;
 
-    public float damageCost = Mathf.Round(((1 * PlayerStats.damageUpgrades) + 2) / 2);
-    public float fireRateCost = Mathf.Round(((1 * PlayerStats.fireRateUpgrades) + 2) / 2);
+    public float damageCost = Mathf.Round(((1 * PlayerStats.damageLevel) + 2) / 2);
+    public float fireRateCost = Mathf.Round(((1 * PlayerStats.fireRateLevel) + 2) / 2);
 
     void Start ()
     {
-        damageText.text = PlayerStats.damage.ToString() + " --> " + (PlayerStats.damage + (1 * PlayerStats.damageUpgrades)).ToString();
+        damageText.text = PlayerStats.damage.ToString() + " --> " + (PlayerStats.damage + (1 * PlayerStats.damageLevel)).ToString();
         fireRateText.text = PlayerStats.fireRate.ToString() + " --> " + (PlayerStats.fireRate + 0.1f).ToString();
     }
 
@@ -52,19 +52,19 @@ public class Shop : MonoBehaviour
 
     public void PurchaseDamage ()
     {
-        PlayerStats.damage = PlayerStats.damage + (1 * PlayerStats.damageUpgrades);
-        PlayerStats.damageUpgrades++;
+        PlayerStats.damage = PlayerStats.damage + (1 * PlayerStats.damageLevel);
+        PlayerStats.damageLevel++;
         PlayerStats.Money -= damageCost;
-        damageCost = Mathf.Round(((1 * PlayerStats.damageUpgrades) + 2) / 2);
-        damageText.text = PlayerStats.damage.ToString() + " --> " + (PlayerStats.damage + (1 * PlayerStats.damageUpgrades)).ToString();
+        damageCost = Mathf.Round(((1 * PlayerStats.damageLevel) + 2) / 2);
+        damageText.text = PlayerStats.damage.ToString() + " --> " + (PlayerStats.damage + (1 * PlayerStats.damageLevel)).ToString();
     }
 
     public void PurchaseFireRate ()
     {
         PlayerStats.fireRate = PlayerStats.fireRate + 0.1f;
-        PlayerStats.fireRateUpgrades++;
+        PlayerStats.fireRateLevel++;
         PlayerStats.Money -= fireRateCost;
-        fireRateCost = Mathf.Round(((2 * PlayerStats.fireRateUpgrades) + 2) / 2);
+        fireRateCost = Mathf.Round(((2 * PlayerStats.fireRateLevel) + 2) / 2);
         fireRateText.text = PlayerStats.fireRate.ToString() + " --> " + (PlayerStats.fireRate + 0.1f).ToString();
         if(PlayerStats.fireRate >= 10f)
         {
@@ -76,7 +76,7 @@ public class Shop : MonoBehaviour
     {
         damageCost = 2f;
         fireRateCost = 2f;
-        damageText.text = PlayerStats.damage.ToString() + " --> " + (PlayerStats.damage + (1 * PlayerStats.damageUpgrades)).ToString();
+        damageText.text = PlayerStats.damage.ToString() + " --> " + (PlayerStats.damage + (1 * PlayerStats.damageLevel)).ToString();
         fireRateText.text = PlayerStats.fireRate.ToString() + " --> " + (PlayerStats.fireRate + 0.1f).ToString();
     }
 }

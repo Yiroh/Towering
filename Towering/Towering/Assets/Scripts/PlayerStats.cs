@@ -15,14 +15,17 @@ public class PlayerStats : MonoBehaviour {
     public float startDamage = 5f;
     public float startRange = 10f;
     public float startFireRate = 1f;
+    public static float damageUpgrades = 1f;
+    public static float rangeUpgrades = 1f;
+    public static float fireRateUpgrades = 1f;
 
     [HideInInspector]
     public static float damage;
     public static float range;
     public static float fireRate;
-    public static float damageUpgrades = 1f;
-    public static float rangeUpgrades = 1f;
-    public static float fireRateUpgrades = 1f;
+    public static float damageLevel;
+    public static float rangeLevel;
+    public static float fireRateLevel;
 
 	void Start ()
 	{
@@ -31,6 +34,10 @@ public class PlayerStats : MonoBehaviour {
         damage = startDamage;
         range = startRange;
         fireRate = startFireRate;
+
+        damageLevel = damageUpgrades;
+        rangeLevel = rangeUpgrades;
+        fireRateLevel = fireRateUpgrades;
 	}
 
     public void Reset ()
@@ -41,8 +48,8 @@ public class PlayerStats : MonoBehaviour {
         range = startRange;
         fireRate = startFireRate;
 
-        damageUpgrades = 1f;
-        rangeUpgrades = 1f;
-        fireRateUpgrades = 1f;
+        damageLevel = damageUpgrades;
+        rangeLevel = rangeUpgrades;
+        fireRateLevel = fireRateUpgrades;
     }
 }
