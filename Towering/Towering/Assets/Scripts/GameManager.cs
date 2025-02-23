@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour {
 	private bool gameEnded = false;
 
     public TMP_Text towerHPText;
-    public TMP_Text currencyText;
+    public TMP_Text cubesText;
+    public TMP_Text gemsText;
+    public TMP_Text gemsGainedText;
     public GameObject gameOverUI;
 
 	// Update is called once per frame
@@ -22,13 +24,20 @@ public class GameManager : MonoBehaviour {
 		}
 
         towerHPText.text = "Tower HP: " + Mathf.Round(PlayerStats.towerHP).ToString();
-        currencyText.text = "Currency: " + Mathf.Round(PlayerStats.Money).ToString();
+        cubesText.text = "Cubes: " + Mathf.Round(PlayerStats.Cubes).ToString();
+        gemsText.text = "Gems: " + Mathf.Round(PlayerStats.Gems).ToString();
 	}
 
 	void EndGame ()
 	{
 		gameEnded = true;
 		Debug.Log("Game Over!");
+
+        GameObject enemySpawner = GameObject.Find("Enemy Spawner");
+        WaveSpawner waveSpawner = enemySpawner.GetComponent<WaveSpawner>();
+        PlayerStats.Gems += waveSpawner.waveIndex;
+        gemsGainedText.text = "You have gained " + waveSpawner.waveIndex + " gems!";
+
         gameOverUI.SetActive(true);
 	}
 

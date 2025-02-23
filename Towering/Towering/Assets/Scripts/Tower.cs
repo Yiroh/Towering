@@ -71,12 +71,10 @@ public class Tower : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Player collided with an enemy
-            Debug.Log("Player hit by enemy!");
-
-            // Add your damage taking logic here
+            // Tower takes damage
             Enemy e = collision.gameObject.GetComponent<Enemy>();
             PlayerStats.towerHP -= e.damage;
+            e.Die();
         }
     }
 

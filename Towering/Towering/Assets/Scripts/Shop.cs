@@ -16,21 +16,21 @@ public class Shop : MonoBehaviour
 
     void Start ()
     {
-        damageText.text = PlayerStats.damage.ToString() + " --> " + (PlayerStats.damage + (1 * PlayerStats.damageLevel)).ToString();
-        fireRateText.text = PlayerStats.fireRate.ToString() + " --> " + (PlayerStats.fireRate + 0.1f).ToString();
+        damageText.text = Mathf.Round(PlayerStats.damage).ToString() + " --> " + Mathf.Round(PlayerStats.damage + (1 * PlayerStats.damageLevel)).ToString();
+        fireRateText.text = Mathf.Round(PlayerStats.fireRate).ToString() + " --> " + Mathf.Round(PlayerStats.fireRate + 0.1f).ToString();
     }
 
     void Update ()
     {
         // Enable or disable buttons depending on cost
-        if(PlayerStats.Money < damageCost)
+        if(PlayerStats.Cubes < damageCost)
             damageButton.interactable = false;
         else
             damageButton.interactable = true;
 
-        if(PlayerStats.Money < fireRateCost)
+        if(PlayerStats.Cubes < fireRateCost)
             fireRateButton.interactable = false;
-        else if (PlayerStats.Money >= fireRateCost && PlayerStats.fireRate < 10f)
+        else if (PlayerStats.Cubes >= fireRateCost && PlayerStats.fireRate < 10f)
             fireRateButton.interactable = true;
     }
 
@@ -54,18 +54,18 @@ public class Shop : MonoBehaviour
     {
         PlayerStats.damage = PlayerStats.damage + (1 * PlayerStats.damageLevel);
         PlayerStats.damageLevel++;
-        PlayerStats.Money -= damageCost;
+        PlayerStats.Cubes -= damageCost;
         damageCost = Mathf.Round(((1 * PlayerStats.damageLevel) + 2) / 2);
-        damageText.text = PlayerStats.damage.ToString() + " --> " + (PlayerStats.damage + (1 * PlayerStats.damageLevel)).ToString();
+        damageText.text = Mathf.Round(PlayerStats.damage).ToString() + " --> " + Mathf.Round(PlayerStats.damage + (1 * PlayerStats.damageLevel)).ToString();
     }
 
     public void PurchaseFireRate ()
     {
         PlayerStats.fireRate = PlayerStats.fireRate + 0.1f;
         PlayerStats.fireRateLevel++;
-        PlayerStats.Money -= fireRateCost;
+        PlayerStats.Cubes -= fireRateCost;
         fireRateCost = Mathf.Round(((2 * PlayerStats.fireRateLevel) + 2) / 2);
-        fireRateText.text = PlayerStats.fireRate.ToString() + " --> " + (PlayerStats.fireRate + 0.1f).ToString();
+        fireRateText.text = Mathf.Round(PlayerStats.fireRate).ToString() + " --> " + Mathf.Round(PlayerStats.fireRate + 0.1f).ToString();
         if(PlayerStats.fireRate >= 10f)
         {
             fireRateButton.interactable = false;

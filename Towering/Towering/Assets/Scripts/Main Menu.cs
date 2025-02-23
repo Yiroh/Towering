@@ -12,11 +12,15 @@ public class MainMenu : MonoBehaviour
     public Button HowToCloseButton;
 
     public GameObject HowToPanel;
+    public GameObject UpgradesPanel;
 
     // Permanent Upgrades
     public void Workshop ()
     {
-        // Either have a UI for this or switch to a separate scene.
+        if (UpgradesPanel != null)
+        {
+            UpgradesPanel.SetActive(true);
+        }
     }
 
     // Play Towering

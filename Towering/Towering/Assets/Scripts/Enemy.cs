@@ -11,15 +11,19 @@ public class Enemy : MonoBehaviour
     public GameObject deathEffect;
     public GameObject bossDeathEffect;
     [HideInInspector]
+    // Attributes they get when SPAWNING in
     public float speed;
-    public float health;
+    public float health; 
     public float damage;
+    // Attributes they currently have
+    public float currentHealth;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start ()
     {
         speed = startSpeed;
         health = startHealth;
+        currentHealth = startHealth;
         damage = startDamage;
     }
 
@@ -31,18 +35,17 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage (float amount)
 	{
-		health -= amount;
-        Debug.Log("Enemy Hit for: " + amount);
+		currentHealth -= amount;
 
-		if (health <= 0)
+		if (currentHealth <= 0)
 		{
 			Die();
 		}
 	}
 
-    void Die ()
+    public void Die ()
 	{
-		PlayerStats.Money += value;
+		PlayerStats.Cubes += value;
 
         if (deathEffect != null)
         {
@@ -63,5 +66,6 @@ public class Enemy : MonoBehaviour
         speed = startSpeed;
         health = startHealth;
         damage = startDamage;
+        currentHealth = startHealth;
     }
 }

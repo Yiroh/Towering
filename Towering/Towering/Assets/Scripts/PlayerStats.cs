@@ -1,10 +1,15 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerStats : MonoBehaviour {
+public class PlayerStats : MonoBehaviour 
+{
+    public static PlayerStats instance;
 
-	public static float Money;
-	public float startMoney = 0;
+	public static float Cubes; // Temporary upgrade currency
+	public float startCubes = 0;
+
+    public static float Gems; // Permanent Upgrade currency
+    public float startGems = 0;
 
 	public static float towerHP;
 	public float startTowerHP = 20f;
@@ -27,9 +32,23 @@ public class PlayerStats : MonoBehaviour {
     public static float rangeLevel;
     public static float fireRateLevel;
 
+    void Awake ()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }	
+    }
+
 	void Start ()
 	{
-		Money = startMoney;
+		Cubes = startCubes;
+        Gems = startGems;
 		towerHP = startTowerHP;
         damage = startDamage;
         range = startRange;
@@ -42,7 +61,8 @@ public class PlayerStats : MonoBehaviour {
 
     public void Reset ()
     {
-        Money = startMoney;
+        Cubes = startCubes;
+        // Do not reset Gems
 		towerHP = startTowerHP;
         damage = startDamage;
         range = startRange;

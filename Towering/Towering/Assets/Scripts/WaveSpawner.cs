@@ -7,12 +7,31 @@ public class WaveSpawner : MonoBehaviour
 {
     public Transform[] enemyPrefabs;
     public float spawnRadius = 30f;
-    public float timeBetweenWaves = 5f;
+    public float timeBetweenWaves = 6f;
 
     public TMP_Text waveCountText;
+    public TMP_Text enemyHealthText;
+    public TMP_Text enemyAttackText;
+
 
     private float countdown;
-    private float waveIndex = 0f;
+    public float waveIndex = 0f;
+
+    void Start ()
+    {
+        for (int i = 0; i < enemyPrefabs.Length; i++)
+        {
+            Enemy e = enemyPrefabs[i].gameObject.GetComponent<Enemy>();
+            e.health = e.startHealth;
+            e.damage = e.startDamage; 
+
+            if(i == 0)
+            {
+                enemyHealthText.text = "Enemy Health: " + (Mathf.Round(e.health * 100) / 100.0).ToString();
+                enemyAttackText.text = "Enemy Attack: " + (Mathf.Round(e.damage * 100) / 100.0).ToString();
+            }
+        }
+    }
 
     // Update is called once per frame
     void Update ()
@@ -26,6 +45,18 @@ public class WaveSpawner : MonoBehaviour
         countdown -= Time.deltaTime;
 
         waveCountText.text = "Wave " + Mathf.Round(waveIndex).ToString();
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            Enemy e = enemies[i].GetComponent<Enemy>();
+                
+            e.health = e.startHealth + (0.5f * waveIndex);
+            e.damage = e.startDamage + (0.2f * waveIndex);
+
+            enemyHealthText.text = "Enemy Health: " + (Mathf.Round(e.health * 100) / 100.0).ToString();
+            enemyAttackText.text = "Enemy Attack: " + (Mathf.Round(e.damage * 100) / 100.0).ToString();
+        }
     }
 
     IEnumerator SpawnWave () 
@@ -51,12 +82,6 @@ public class WaveSpawner : MonoBehaviour
 
     void SpawnEnemy ()
 	{
-        Enemy e0 = enemyPrefabs[0].gameObject.GetComponent<Enemy>();
-
-        // Buff up enemies based on wave
-        e0.health = e0.health + (0.5f * waveIndex);
-        e0.damage = e0.damage + (0.2f * waveIndex);
-
         // Generate a random angle in degrees (0 - 360)
         float randomAngle = Random.Range(0f, 360f);
 
@@ -74,11 +99,6 @@ public class WaveSpawner : MonoBehaviour
 	{
         Enemy e1 = enemyPrefabs[1].gameObject.GetComponent<Enemy>();
         
-        // Buff up boss based on wave
-        e1.health = e1.health + (1f * waveIndex);
-        e1.damage = e1.damage + (0.4f * waveIndex);
-
-
         // Generate a random angle in degrees (0 - 360)
         float randomAngle = Random.Range(0f, 360f);
 
@@ -107,5 +127,12 @@ public class WaveSpawner : MonoBehaviour
         waveIndex = 0f;
         countdown = timeBetweenWaves;
         KillAllEnemies();
+
+        for (int i = 0; i < enemyPrefabs.Length; i++)
+        {
+            Enemy e = enemyPrefabs[i].gameObject.GetComponent<Enemy>();
+            e.health = e.startHealth;
+            e.damage = e.startDamage; 
+        }
     }
 }
