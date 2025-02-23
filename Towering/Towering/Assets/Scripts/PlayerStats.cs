@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour 
 {
@@ -20,9 +21,10 @@ public class PlayerStats : MonoBehaviour
     public float startDamage = 5f;
     public float startRange = 10f;
     public float startFireRate = 1f;
-    public static float damageUpgrades;
-    public static float rangeUpgrades;
-    public static float fireRateUpgrades;
+    public float damageUpgrades = 1f;
+    public float rangeUpgrades = 1f;
+    public float fireRateUpgrades = 1f;
+    public float towerHealthUpgrades = 1f;
 
     [HideInInspector]
     public static float damage;
@@ -31,6 +33,7 @@ public class PlayerStats : MonoBehaviour
     public static float damageLevel;
     public static float rangeLevel;
     public static float fireRateLevel;
+    public static float towerHealthLevel;
 
     void Awake ()
     {
@@ -47,10 +50,6 @@ public class PlayerStats : MonoBehaviour
 
 	void Start ()
 	{
-        damageUpgrades = 1f;
-        rangeUpgrades = 1f;
-        fireRateUpgrades = 1f;
-
 		Cubes = startCubes;
         Gems = startGems;
 		towerHP = startTowerHP;
@@ -61,19 +60,35 @@ public class PlayerStats : MonoBehaviour
         damageLevel = damageUpgrades;
         rangeLevel = rangeUpgrades;
         fireRateLevel = fireRateUpgrades;
+        towerHealthLevel = towerHealthUpgrades;
 	}
 
     public void Reset ()
     {
         Cubes = startCubes;
         // Do not reset Gems
-		towerHP = startTowerHP;
-        damage = startDamage;
-        range = startRange;
-        fireRate = startFireRate;
+		towerHP = instance.startTowerHP;
+        damage = instance.startDamage;
+        range = instance.startRange;
+        fireRate = instance.startFireRate;
 
-        damageLevel = damageUpgrades;
-        rangeLevel = rangeUpgrades;
-        fireRateLevel = fireRateUpgrades;
+        damageLevel = instance.damageUpgrades;
+        rangeLevel = instance.rangeUpgrades;
+        fireRateLevel = instance.fireRateUpgrades;
+        towerHealthLevel = instance.towerHealthUpgrades;
+    }
+
+    void OnEnable ()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.name == "InGame")
+        {
+            gameObject.SetActive(true);
+            Reset();
+        }
     }
 }

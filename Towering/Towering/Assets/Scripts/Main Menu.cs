@@ -14,6 +14,14 @@ public class MainMenu : MonoBehaviour
     public GameObject HowToPanel;
     public GameObject UpgradesPanel;
 
+    void Update ()
+    {
+        if (PlayerStats.instance != null)
+            WorkshopButton.interactable = true;
+        else 
+            WorkshopButton.interactable = false;
+    }
+
     // Permanent Upgrades
     public void Workshop ()
     {
@@ -35,7 +43,13 @@ public class MainMenu : MonoBehaviour
     public void Tower ()
     {
         // Switch to InGame Scene
-        SceneManager.LoadScene("InGame");
+        SceneManager.LoadSceneAsync("InGame").completed += (AsyncOperation operation) => 
+        {
+            // Access objects in the loaded scene here
+            GameObject gameGM = GameObject.Find("GameManager");
+            GameManager gameManager = gameGM.GetComponent<GameManager>();
+            gameManager.Retry();
+        };
     }
 
     public void Settings ()

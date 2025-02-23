@@ -18,11 +18,10 @@ public class GameManager : MonoBehaviour {
     public TMP_Text gemsGainedText;
     public GameObject gameOverUI;
 
-    void Awake ()
-    {
-        DontDestroyOnLoad (gameObject);
-        Debug.Log("Don't Destroy " + name);
-    }
+    //void Awake ()
+    //{
+        //DontDestroyOnLoad(gameObject);
+    //}
 
     void Start () 
     {
@@ -39,17 +38,19 @@ public class GameManager : MonoBehaviour {
 			EndGame();
 		}
 
-        towerHPText.text = "Tower HP: " + Mathf.Round(PlayerStats.towerHP).ToString();
-        cubesText.text = "Cubes: " + Mathf.Round(PlayerStats.Cubes).ToString();
-        gemsText.text = "Gems: " + Mathf.Round(PlayerStats.Gems).ToString();
+        if (!gameEnded)
+        {
+            towerHPText.text = "Tower HP: " + Mathf.Round(PlayerStats.towerHP).ToString();
+            cubesText.text = "Cubes: " + Mathf.Round(PlayerStats.Cubes).ToString();
+            gemsText.text = "Gems: " + Mathf.Round(PlayerStats.Gems).ToString();
+        }
 	}
 
     public void Town () 
     {
         // They can't come back to their session
+        //Retry();
         EndGame();
-        gameOverUI.SetActive(false);
-        GameObject.Find("Tower").SetActive(false);
         SceneManager.LoadScene(1);
     }
 
@@ -64,9 +65,8 @@ public class GameManager : MonoBehaviour {
     public void Settings ()
     {
         // Give the player their gems, they can't come back
+        //Retry();
         EndGame();
-        gameOverUI.SetActive(false);
-        GameObject.Find("Tower").SetActive(false);
         // Now leave
         SceneManager.LoadScene("Settings");
     }
@@ -86,8 +86,18 @@ public class GameManager : MonoBehaviour {
 
         GameObject enemySpawner = GameObject.Find("Enemy Spawner");
         WaveSpawner waveSpawner = enemySpawner.GetComponent<WaveSpawner>();
-        PlayerStats.Gems += waveSpawner.waveIndex;
-        gemsGainedText.text = "You have gained " + waveSpawner.waveIndex + " gems!";
+
+        if(waveSpawner.waveIndex != 1)
+        {
+            PlayerStats.Gems += waveSpawner.waveIndex;
+            gemsGainedText.text = "You have gained " + waveSpawner.waveIndex + " gems!";
+        }
+        else
+            gemsGainedText.text = "You did not gain any gems!";
+
+        GameObject tower = GameObject.FindGameObjectWithTag("Player");
+        if (tower != null)
+            tower.SetActive(false);
 
         gameOverUI.SetActive(true);
 	}
@@ -95,28 +105,39 @@ public class GameManager : MonoBehaviour {
     public void Retry ()
     {
         // Reset all fields
-        gameOverUI.SetActive(false);
-
-        GameObject towerRef = GameObject.Find("Tower");
+        GameObject towerRef = GameObject.FindGameObjectWithTag("Player");
+        if (towerRef != null)
+            towerRef.SetActive(true);
         PlayerStats playerStats = towerRef.GetComponent<PlayerStats>();
         playerStats.Reset();
 
         GameObject enemyObject = GameObject.FindGameObjectWithTag("Enemy");
-        Enemy enemy = enemyObject.GetComponent<Enemy>();
-        enemy.Reset();
+        if(enemyObject != null)
+        {
+            Enemy enemy = enemyObject.GetComponent<Enemy>();
+            enemy.Reset();
+        }
 
         GameObject canvasObject = GameObject.Find("Canvas");
         Shop shop = canvasObject.GetComponent<Shop>();
         shop.ResetShop();
 
         // Destroy all enemies, reset wave.
-
         GameObject enemySpawner = GameObject.Find("Enemy Spawner");
         WaveSpawner waveSpawner = enemySpawner.GetComponent<WaveSpawner>();
+
+        // Give gems
+        if(waveSpawner.waveIndex > 1 && gemsGainedText != null)
+            gemsGainedText.text = "You have gained " + waveSpawner.waveIndex + " gems!";
+        else if (gemsGainedText != null)
+            gemsGainedText.text = "You did not gain any gems!";
+
         waveSpawner.Reset();
 
+        // Now leave
         gameEnded = false;
-        SceneManager.LoadScene(sceneName:"InGame");
+        if (gameOverUI != null)
+        gameOverUI.SetActive(false);
     }
 
     void OnEnable ()
@@ -130,7 +151,8 @@ public class GameManager : MonoBehaviour {
 
         if(scene.name == "InGame")
         {
-            GameObject.Find("Tower").SetActive(true);
+            GameObject towerRef = GameObject.FindGameObjectWithTag("Player");
+            towerRef.SetActive(true);
             Retry();
         }
     }
