@@ -23,16 +23,24 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void CloseWorkshop ()
+    {
+        if (UpgradesPanel != null)
+        {
+            UpgradesPanel.SetActive(false);
+        }
+    }
+
     // Play Towering
     public void Tower ()
     {
         // Switch to InGame Scene
-        SceneManager.LoadScene(sceneName:"InGame");
+        SceneManager.LoadScene("InGame");
     }
 
     public void Settings ()
     {
-        // Either have a UI for this or switch to a separate scene.
+        SceneManager.LoadScene("Settings");
     }
 
     public void HowToPlay ()

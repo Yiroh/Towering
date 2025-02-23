@@ -17,7 +17,7 @@ public class Shop : MonoBehaviour
     void Start ()
     {
         damageText.text = Mathf.Round(PlayerStats.damage).ToString() + " --> " + Mathf.Round(PlayerStats.damage + (1 * PlayerStats.damageLevel)).ToString();
-        fireRateText.text = Mathf.Round(PlayerStats.fireRate).ToString() + " --> " + Mathf.Round(PlayerStats.fireRate + 0.1f).ToString();
+        fireRateText.text = (Mathf.Round(PlayerStats.fireRate * 10) / 10.0).ToString() + " --> " + (Mathf.Round((PlayerStats.fireRate + 0.1f) * 10) / 10.0).ToString();
     }
 
     void Update ()
@@ -65,7 +65,7 @@ public class Shop : MonoBehaviour
         PlayerStats.fireRateLevel++;
         PlayerStats.Cubes -= fireRateCost;
         fireRateCost = Mathf.Round(((2 * PlayerStats.fireRateLevel) + 2) / 2);
-        fireRateText.text = Mathf.Round(PlayerStats.fireRate).ToString() + " --> " + Mathf.Round(PlayerStats.fireRate + 0.1f).ToString();
+        fireRateText.text = (Mathf.Round(PlayerStats.fireRate * 10) / 10.0).ToString() + " --> " + (Mathf.Round((PlayerStats.fireRate + 0.1f) * 10) / 10.0).ToString();
         if(PlayerStats.fireRate >= 10f)
         {
             fireRateButton.interactable = false;
@@ -77,6 +77,6 @@ public class Shop : MonoBehaviour
         damageCost = 2f;
         fireRateCost = 2f;
         damageText.text = PlayerStats.damage.ToString() + " --> " + (PlayerStats.damage + (1 * PlayerStats.damageLevel)).ToString();
-        fireRateText.text = PlayerStats.fireRate.ToString() + " --> " + (PlayerStats.fireRate + 0.1f).ToString();
+        fireRateText.text = (Mathf.Round(PlayerStats.fireRate * 10) / 10.0).ToString() + " --> " + (Mathf.Round((PlayerStats.fireRate + 0.1f) * 10) / 10.0).ToString();
     }
 }

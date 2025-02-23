@@ -14,7 +14,8 @@ public class Tower : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start ()
     {
-        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        GameObject.Find("Tower").SetActive(true);
+        InvokeRepeating("UpdateTarget", 0f, 0.2f);
     }
 
     void UpdateTarget ()
@@ -52,7 +53,7 @@ public class Tower : MonoBehaviour
         if (fireCountdown <= 0)
         {
             Shoot();
-            fireCountdown = 2f / PlayerStats.range;
+            fireCountdown = 1f / PlayerStats.fireRate;
         }
 
         fireCountdown -= Time.deltaTime;

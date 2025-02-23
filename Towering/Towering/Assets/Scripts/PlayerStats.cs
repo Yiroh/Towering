@@ -20,9 +20,9 @@ public class PlayerStats : MonoBehaviour
     public float startDamage = 5f;
     public float startRange = 10f;
     public float startFireRate = 1f;
-    public static float damageUpgrades = 1f;
-    public static float rangeUpgrades = 1f;
-    public static float fireRateUpgrades = 1f;
+    public static float damageUpgrades;
+    public static float rangeUpgrades;
+    public static float fireRateUpgrades;
 
     [HideInInspector]
     public static float damage;
@@ -47,6 +47,10 @@ public class PlayerStats : MonoBehaviour
 
 	void Start ()
 	{
+        damageUpgrades = 1f;
+        rangeUpgrades = 1f;
+        fireRateUpgrades = 1f;
+
 		Cubes = startCubes;
         Gems = startGems;
 		towerHP = startTowerHP;

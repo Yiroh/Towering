@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     public float startSpeed = 10f;
     public float startHealth = 5f;
     public float startDamage = 1f;
-    public int value = 1;
+    public int cubeValue = 1;
     public GameObject deathEffect;
     public GameObject bossDeathEffect;
     [HideInInspector]
@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
 
     public void Die ()
 	{
-		PlayerStats.Cubes += value;
+		PlayerStats.Cubes += cubeValue;
 
         if (deathEffect != null)
         {

@@ -6,6 +6,7 @@ public class Workshop : MonoBehaviour
 {
     public TMP_Text damageText;
     public TMP_Text fireRateText;
+    public TMP_Text gemsText;
 
     public Button damageButton;
     public Button fireRateButton;
@@ -32,13 +33,15 @@ public class Workshop : MonoBehaviour
             fireRateButton.interactable = false;
         else if (PlayerStats.Gems >= fireRateCost && PlayerStats.instance.startFireRate < 10f)
             fireRateButton.interactable = true;
+
+        gemsText.text = "Gems: " + PlayerStats.Gems.ToString();
     }
 
     public void PurchaseDamage ()
     {
         PlayerStats.instance.startDamage = PlayerStats.instance.startDamage + (1 * PlayerStats.damageUpgrades);
         PlayerStats.damageUpgrades++;
-        PlayerStats.Cubes -= damageCost;
+        PlayerStats.Gems -= damageCost;
         damageCost = Mathf.Round(((1 * PlayerStats.damageUpgrades) + 2) / 2);
         damageText.text = PlayerStats.instance.startDamage.ToString() + " --> " + (PlayerStats.instance.startDamage + (1 * PlayerStats.damageUpgrades)).ToString();
     }
@@ -47,7 +50,7 @@ public class Workshop : MonoBehaviour
     {
         PlayerStats.instance.startFireRate = PlayerStats.instance.startFireRate + 0.1f;
         PlayerStats.fireRateUpgrades++;
-        PlayerStats.Cubes -= fireRateCost;
+        PlayerStats.Gems -= fireRateCost;
         fireRateCost = Mathf.Round(((2 * PlayerStats.fireRateUpgrades) + 2) / 2);
         fireRateText.text = PlayerStats.instance.startFireRate.ToString() + " --> " + (PlayerStats.instance.startFireRate + 0.1f).ToString();
         if(PlayerStats.instance.startFireRate >= 10f)
